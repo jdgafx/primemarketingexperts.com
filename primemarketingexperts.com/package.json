@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "scrape": "node scraper/index.js",
     "lint": "eslint"
   },
   "dependencies": {

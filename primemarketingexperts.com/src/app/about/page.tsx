@@ -36,7 +36,7 @@ export default function AboutPage() {
                                 <div className="absolute -inset-4 bg-orange-500/10 rounded-[40px] blur-2xl group-hover:bg-orange-500/20 transition-all"></div>
                                 <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl grayscale hover:grayscale-0 transition-all duration-700">
                                     <Image
-                                        src="/michael-krieger.jpg"
+                                        src="/images/michael-krieger-section.jpg"
                                         alt="Michael Krieger"
                                         fill
                                         className="object-cover"
