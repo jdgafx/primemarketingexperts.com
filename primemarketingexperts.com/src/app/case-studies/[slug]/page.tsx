@@ -2,8 +2,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { caseStudies } from '@/lib/case-studies';
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
+import { Navbar, Footer } from '@/components/Layout';
 
 interface PageProps {
     params: {

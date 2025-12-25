@@ -1,5 +1,6 @@
 import { Navbar, Footer } from '@/components/Layout';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { technologyItems } from '@/lib/navigation';
 
@@ -40,77 +41,108 @@ export default async function TechnologyServicePage({ params }: { params: Promis
     }
 
     return (
-        <main className="min-h-screen bg-white">
+        <main className="min-h-screen bg-[#fafaf8] font-montserrat">
             <Navbar />
 
-            {/* Hero Section */}
-            <section className="relative bg-gradient-to-br from-slate-900 via-emerald-900 to-slate-900 text-white py-24 overflow-hidden">
-                <div className="absolute inset-0 opacity-20">
-                    <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 30% 40%, rgba(16,185,129,0.4) 0%, transparent 40%)' }}></div>
-                    {/* Tech grid background */}
-                    <div className="absolute inset-0 opacity-20" style={{
-                        backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
-                        backgroundSize: '40px 40px'
-                    }}></div>
-                </div>
-                <div className="container mx-auto px-4 relative z-10">
+            {/* Hero Section - Refined Beige Layout */}
+            <section className="bg-[#f2f1ec] py-24 border-b border-gray-100">
+                <div className="container mx-auto px-4 text-center">
                     <div className="max-w-4xl mx-auto">
-                        <div className="text-7xl mb-6">{service.icon}</div>
-                        <span className="inline-block bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-full text-sm font-semibold mb-6 uppercase tracking-wider">
-                            Technology Services
-                        </span>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                        <div className="text-6xl mb-8 animate-bounce-slow">{service.icon}</div>
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#1a1a1a] mb-6 leading-tight uppercase tracking-tight">
                             {service.title}
                         </h1>
-                        <p className="text-xl text-gray-300 mb-8 max-w-3xl">
+                        <p className="text-xl md:text-2xl text-gray-700 font-medium max-w-2xl mx-auto leading-relaxed">
                             {service.description}
                         </p>
-                        <Link href="/free-strategy-session" className="inline-block bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
-                            Start Your Project
-                        </Link>
                     </div>
                 </div>
             </section>
 
-            {/* Content Section */}
-            <section className="py-20">
+            {/* Z-Pattern Content Sections */}
+            <section className="py-24 space-y-24">
+                {/* Section 1: Introduction (Text Left | Image Right) */}
                 <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto">
-                        <h2 className="text-3xl font-bold text-gray-900 mb-8">About {service.title}</h2>
-                        <div className="prose prose-lg max-w-none text-gray-700">
-                            <p className="text-xl leading-relaxed mb-6">
-                                {service.description}
-                            </p>
-                            <p className="leading-relaxed">
+                    <div className="flex flex-col lg:flex-row items-center gap-16">
+                        <div className="lg:w-1/2 space-y-8 bg-white p-10 md:p-14 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-50">
+                            <h2 className="text-3xl md:text-4xl font-extrabold text-[#1a1a1a] leading-tight">
+                                Innovative Technology for {service.title}
+                            </h2>
+                            <p className="text-lg text-gray-600 leading-relaxed font-medium">
                                 At Prime Marketing Experts, we leverage cutting-edge technology to build solutions that drive business results. Our {service.title.toLowerCase()} services combine technical excellence with user-centered design to create products your customers will love.
                             </p>
+                            <Link href="/free-strategy-session" className="inline-block bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-10 py-4 rounded-xl font-bold uppercase tracking-wider hover:shadow-2xl transition-all active:scale-95">
+                                Start Your Project
+                            </Link>
+                        </div>
+                        <div className="lg:w-1/2">
+                            <div className="relative group">
+                                <div className="absolute -inset-4 bg-emerald-500/10 rounded-[40px] blur-2xl group-hover:bg-emerald-500/20 transition-all"></div>
+                                <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl grayscale hover:grayscale-0 transition-all duration-700">
+                                    <Image
+                                        src={`/technology-${service.slug}-1.jpg`}
+                                        alt={service.title}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Section 2: Why Choose Us (Image Left | Text Right) */}
+                <div className="container mx-auto px-4">
+                    <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
+                        <div className="lg:w-1/2 space-y-8 bg-white p-10 md:p-14 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-50">
+                            <h2 className="text-3xl md:text-4xl font-extrabold text-[#1a1a1a] leading-tight">
+                                High-Performance Development
+                            </h2>
+                            <p className="text-lg text-gray-600 leading-relaxed font-medium">
+                                We focus on scalability, security, and accessibility to ensure your digital presence is not only beautiful but also robust and compliant.
+                            </p>
+                            <ul className="grid grid-cols-1 gap-4">
+                                {['Cutting-edge Stack', 'Responsive Design', 'ADA Compliance'].map((benefit, idx) => (
+                                    <li key={idx} className="flex items-start gap-4 py-3 border-b border-gray-50 last:border-0 group">
+                                        <div className="shrink-0 w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center mt-1 group-hover:bg-emerald-500 transition-colors">
+                                            <svg className="w-3.5 h-3.5 text-emerald-600 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        </div>
+                                        <span className="text-gray-700 font-semibold group-hover:text-emerald-600 transition-colors">{benefit}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="lg:w-1/2">
+                            <div className="relative group">
+                                <div className="absolute -inset-4 bg-blue-500/10 rounded-[40px] blur-2xl group-hover:bg-blue-500/20 transition-all"></div>
+                                <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl">
+                                    <Image
+                                        src={`/technology-${service.slug}-2.jpg`}
+                                        alt="Success Outcomes"
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Other Technology Services */}
-            <section className="py-20 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Other Technology Services</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-                        {technologyItems.filter(i => !i.href.includes(slug)).map((item) => (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className="flex items-center p-4 bg-white rounded-xl shadow hover:shadow-lg transition-all border border-gray-100 hover:border-emerald-200 group"
-                            >
-                                <span className="w-3 h-3 bg-emerald-500 rounded-full mr-3 group-hover:scale-125 transition-transform flex-shrink-0"></span>
-                                <span className="font-medium text-gray-800 group-hover:text-emerald-600 transition-colors text-sm">{item.label}</span>
-                            </Link>
-                        ))}
-                    </div>
+            {/* Footer CTA Bar */}
+            <section className="bg-orange-500 py-6">
+                <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <span className="text-white font-black text-2xl uppercase tracking-widest italic">Build the future with Prime.</span>
+                    <Link href="/contact" className="bg-white text-orange-600 px-10 py-3 rounded-xl font-black uppercase hover:bg-gray-100 transition-colors shadow-xl">
+                        Start Project
+                    </Link>
                 </div>
             </section>
-
-
 
             <Footer />
         </main>
     );
 }
+

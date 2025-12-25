@@ -1,14 +1,32 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-rgb: 255, 255, 255;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --pme-orange: 234, 88, 12;
+  --pme-orange-light: 249, 115, 22;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
-  font-family: var(--font-open-sans), ui-sans-serif, system-ui, sans-serif;
+@layer base {
+  body {
+    @apply font-montserrat text-[#1a1a1a];
+    background-color: #fff;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-[1240px] mx-auto;
+  }
+
+  .btn-primary {
+    /* @apply bg-gradient-to-r from-primary to-primary-dark text-white font-bold py-4 px-8 rounded-lg hover:shadow-lg transition-all active:scale-[0.98] uppercase tracking-wide text-sm; */
+  }
 }
 
 /* Custom Utilities for Clone */
@@ -24,7 +42,13 @@ body {
 }
 
 /* Montserrat for Headings */
-h1, h2, h3, h4, h5, h6, .font-montserrat {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-montserrat {
   font-family: var(--font-montserrat), sans-serif;
 }
 

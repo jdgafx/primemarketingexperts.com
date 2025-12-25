@@ -425,7 +425,7 @@ export default function Home() {
               <Link key={i} href={`/case-studies/${study.slug}`}>
                 <article className="overflow-hidden rounded-lg border transition-all duration-300 bg-white hover:scale-105 group h-full flex flex-col">
                   <div className="relative aspect-[16/9]">
-                    <Image src={study.img} alt={study.title} fill className="object-cover transition duration-300" onError={(e) => { e.currentTarget.src = '/hero-bg.jpg' }} />
+                    <Image src={study.img} alt={study.title} fill className="object-cover transition duration-300" />
                     {/* Added onError Fallback just in case */}
                   </div>
                   <div className="p-6 flex flex-col flex-grow">

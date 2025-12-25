@@ -7,20 +7,22 @@ export const metadata = {
 
 export default function ContactPage() {
     return (
-        <main className="min-h-screen flex flex-col">
+        <main className="min-h-screen bg-[#fafaf8] font-montserrat">
             <Navbar />
 
-            {/* Hero Section */}
-            <div className="bg-[#f9f6f3] py-24">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h1 className="text-4xl md:text-6xl font-extrabold text-[#1a1a1a] mb-6 font-montserrat tracking-tight">
-                        Contact Us
-                    </h1>
-                    <p className="max-w-2xl mx-auto text-xl text-gray-600 leading-relaxed italic">
-                        Let`s discuss how we can help grow your business through innovative, relationship-driven marketing solutions.
-                    </p>
+            {/* Hero Section - Refined Beige Layout */}
+            <section className="bg-[#f2f1ec] py-24 border-b border-gray-100">
+                <div className="container mx-auto px-4 text-center">
+                    <div className="max-w-4xl mx-auto">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#1a1a1a] mb-6 leading-tight uppercase tracking-tight">
+                            Contact Us
+                        </h1>
+                        <p className="text-xl md:text-2xl text-gray-700 font-medium max-w-2xl mx-auto leading-relaxed italic">
+                            Let&apos;s discuss how we can help grow your business through innovative, relationship-driven marketing solutions.
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </section>
 
             {/* Main Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
