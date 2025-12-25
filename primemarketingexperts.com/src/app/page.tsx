@@ -57,7 +57,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col font-sans">
+    <main className="min-h-screen flex flex-col font-poppins">
       <Navbar />
 
       {/* Hero Section - Horizontal Sliding Carousel */}

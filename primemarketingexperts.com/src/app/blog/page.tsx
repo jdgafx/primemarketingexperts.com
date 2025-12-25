@@ -16,7 +16,7 @@ export default function BlogPage() {
             {/* Hero Section */}
             <div className="bg-[#f9f6f3] py-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h1 className="text-4xl md:text-6xl font-extrabold text-[#1a1a1a] mb-6 font-montserrat tracking-tight">
+                    <h1 className="text-4xl md:text-6xl font-extrabold text-[#1a1a1a] mb-6 font-poppins tracking-tight">
                         Our Blog
                     </h1>
                     <p className="max-w-3xl mx-auto text-xl text-gray-600 leading-relaxed italic">

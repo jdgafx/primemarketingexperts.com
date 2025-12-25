@@ -18,7 +18,7 @@ export function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     return (
-        <nav className="bg-white w-full h-auto shadow-sm sticky top-0 z-[100] font-montserrat">
+        <nav className="bg-white w-full h-auto shadow-sm sticky top-0 z-[100] font-poppins">
             {/* Header Top - Potential place for phone/email if original has it */}
             <div className="hidden xl:block border-b border-gray-100 bg-gray-50/50">
                 <div className="container mx-auto px-4 py-2 flex justify-end gap-6 text-xs font-semibold text-gray-500 uppercase tracking-widest">
@@ -35,8 +35,8 @@ export function Navbar() {
                         <Image
                             src="/pme-logo.png"
                             alt="Prime Marketing Experts"
-                            width={220}
-                            height={65}
+                            width={247}
+                            height={80}
                             className="object-contain"
                             priority
                         />
@@ -157,7 +157,7 @@ export function Navbar() {
 
 export function Footer() {
     return (
-        <footer className="bg-[#1a1a1a] text-white pt-20 pb-10 font-montserrat">
+        <footer className="bg-[#1a1a1a] text-white pt-20 pb-10 font-poppins">
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                     {/* Brand Column */}

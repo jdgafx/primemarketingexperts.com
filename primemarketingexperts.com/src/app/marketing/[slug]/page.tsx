@@ -34,7 +34,7 @@ export default async function MarketingServicePage({ params }: { params: Promise
     }
 
     return (
-        <main className="min-h-screen bg-[#fafaf8] font-montserrat">
+        <main className="min-h-screen bg-[#fafaf8] font-poppins">
             <Navbar />
 
             {/* Hero Section - Refined Beige Layout */}
