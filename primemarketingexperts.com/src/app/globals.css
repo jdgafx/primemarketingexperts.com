@@ -14,7 +14,7 @@
 
 @layer base {
   body {
-    @apply font-poppins text-[#1a1a1a];
+    @apply font-inter text-[#333] antialiased leading-relaxed;
     background-color: #fff;
   }
 }
@@ -47,7 +47,11 @@ h2,
 h3,
 h4,
 h5,
-h6,
+h6 {
+  font-family: var(--font-poppins), sans-serif;
+  @apply tracking-tight;
+}
+
 .font-poppins {
   font-family: var(--font-poppins), sans-serif;
 }

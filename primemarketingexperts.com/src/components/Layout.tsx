@@ -19,16 +19,8 @@ export function Navbar() {
 
     return (
         <nav className="bg-white w-full h-auto shadow-sm sticky top-0 z-[100] font-poppins">
-            {/* Header Top - Potential place for phone/email if original has it */}
-            <div className="hidden xl:block border-b border-gray-100 bg-gray-50/50">
-                <div className="container mx-auto px-4 py-2 flex justify-end gap-6 text-xs font-semibold text-gray-500 uppercase tracking-widest">
-                    <a href="tel:617-651-1457" className="hover:text-orange-600 transition-colors">617-651-1457</a>
-                    <a href="mailto:hello@primemarketingexperts.com" className="hover:text-orange-600 transition-colors">hello@primemarketingexperts.com</a>
-                </div>
-            </div>
-
             {/* Main Container - Desktop */}
-            <div className="hidden xl:flex flex-row items-center justify-between py-4 h-24 container mx-auto px-4">
+            <div className="hidden xl:flex flex-row items-center justify-between py-4 h-24 container mx-auto px-4 font-poppins">
                 {/* Logo Section */}
                 <div className="flex items-center">
                     <Link href="/" className="transition-opacity hover:opacity-90">
@@ -44,32 +36,32 @@ export function Navbar() {
                 </div>
 
                 {/* Navigation Links */}
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2">
                     {mainNavigation.map((item) => (
-                        <div key={item.label} className="relative group px-1">
+                        <div key={item.label} className="relative group px-2">
                             {'items' in item ? (
-                                <div className="flex items-center gap-1.5 py-4 px-3 cursor-pointer">
-                                    <span className="text-[15px] font-bold text-gray-800 hover:text-orange-600 transition-colors uppercase tracking-tight">
+                                <div className="flex items-center gap-1 py-4 px-2 cursor-pointer group">
+                                    <span className="text-[15px] font-bold text-gray-800 hover:text-orange-600 transition-colors">
                                         {item.label}
                                     </span>
                                     {item.label === 'AI Services' && (
-                                        <span className="relative flex h-2 w-2">
+                                        <span className="relative flex h-2 w-2 -mt-2 -ml-1">
                                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                                             <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
                                         </span>
                                     )}
-                                    <svg className="w-4 h-4 text-gray-400 group-hover:text-orange-600 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg className="w-3 h-3 text-gray-400 group-hover:text-orange-600 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                     </svg>
 
                                     {/* Dropdown Menu */}
-                                    <div className="absolute top-full left-0 mt-0 w-64 bg-white shadow-2xl rounded-b-xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border-t-2 border-orange-500 z-[110]">
+                                    <div className="absolute top-full left-0 mt-0 w-64 bg-white shadow-xl rounded-b-lg overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border-t-4 border-orange-500 z-[110]">
                                         <div className="py-2">
                                             {(item as any).items.map((subItem: any) => (
                                                 <Link
                                                     key={subItem.label}
                                                     href={subItem.href}
-                                                    className="block px-6 py-3 text-[14px] text-gray-700 hover:bg-orange-50 hover:text-orange-600 font-semibold transition-colors border-b border-gray-50 last:border-0"
+                                                    className="block px-6 py-3 text-[14px] text-gray-600 hover:bg-gray-50 hover:text-orange-600 font-medium transition-colors"
                                                 >
                                                     {subItem.label}
                                                 </Link>
@@ -80,7 +72,7 @@ export function Navbar() {
                             ) : (
                                 <Link
                                     href={(item as any).href}
-                                    className="block py-4 px-3 text-[15px] font-bold text-gray-800 hover:text-orange-600 transition-colors uppercase tracking-tight"
+                                    className="block py-4 px-2 text-[15px] font-bold text-gray-800 hover:text-orange-600 transition-colors"
                                 >
                                     {item.label}
                                 </Link>
@@ -91,14 +83,17 @@ export function Navbar() {
 
                 {/* CTA Button */}
                 <Link href="/free-strategy-session">
-                    <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-7 py-3.5 rounded-lg font-bold text-[14px] uppercase tracking-wide hover:shadow-[0_8px_25px_-5px_rgba(234,88,12,0.4)] transition-all active:scale-95">
-                        Free Session
+                    <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-full font-bold text-[15px] hover:shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Free Strategy Session
                     </div>
                 </Link>
             </div>
 
             {/* Mobile Header */}
-            <div className="xl:hidden flex items-center justify-between px-4 py-4 border-b">
+            <div className="xl:hidden flex items-center justify-between px-4 py-4 border-b bg-white relative z-50">
                 <Link href="/">
                     <Image src="/pme-logo.png" alt="PME" width={150} height={45} className="object-contain" />
                 </Link>

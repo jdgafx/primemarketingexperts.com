@@ -1,11 +1,50 @@
-import { Navbar, Footer } from '@/components/Layout';
+'use client';
 
-export const metadata = {
-    title: 'Contact Us | Prime Marketing Experts',
-    description: 'Get in touch with Prime Marketing Experts. Located in Nashua, NH. Call us at 617-651-1457 or email hello@primemarketingexperts.com for a free strategy session.',
-};
+import { Navbar, Footer } from '@/components/Layout';
+import { useState } from 'react';
 
 export default function ContactPage() {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        message: '',
+    });
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...formData, formType: 'Contact Form' }),
+            });
+
+            if (response.ok) {
+                setIsSuccess(true);
+                setFormData({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    company: '',
+                    message: '',
+                });
+            } else {
+                throw new Error('Failed to submit');
+            }
+        } catch (error) {
+            alert('Something went wrong. Please try again or call us directly.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <main className="min-h-screen bg-[#fafaf8] font-poppins">
             <Navbar />
@@ -31,82 +70,107 @@ export default function ContactPage() {
                     {/* Contact Form */}
                     <div>
                         <h2 className="text-3xl font-extrabold text-gray-900 mb-6">Send Us a Message</h2>
-                        <form className="space-y-6">
-                            <div>
-                                <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-2">
-                                    Full Name *
-                                </label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    required
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[rgb(234,88,12)] focus:border-transparent outline-none transition"
-                                    placeholder="John Doe"
-                                />
+                        {isSuccess ? (
+                            <div className="bg-green-50 border border-green-200 rounded-2xl p-8 text-center">
+                                <div className="text-4xl mb-4">✅</div>
+                                <h3 className="text-2xl font-bold text-green-900 mb-2">Message Sent!</h3>
+                                <p className="text-green-700">Thank you for reaching out. We've received your message and will get back to you within 24 hours.</p>
+                                <button
+                                    onClick={() => setIsSuccess(false)}
+                                    className="mt-6 text-green-600 font-bold hover:underline"
+                                >
+                                    Send another message
+                                </button>
                             </div>
+                        ) : (
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div>
+                                    <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-2">
+                                        Full Name *
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        required
+                                        value={formData.name}
+                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[rgb(234,88,12)] focus:border-transparent outline-none transition"
+                                        placeholder="John Doe"
+                                    />
+                                </div>
 
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-bold text-gray-700 mb-2">
-                                    Email Address *
-                                </label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    required
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[rgb(234,88,12)] focus:border-transparent outline-none transition"
-                                    placeholder="john@example.com"
-                                />
-                            </div>
+                                <div>
+                                    <label htmlFor="email" className="block text-sm font-bold text-gray-700 mb-2">
+                                        Email Address *
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        required
+                                        value={formData.email}
+                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[rgb(234,88,12)] focus:border-transparent outline-none transition"
+                                        placeholder="john@example.com"
+                                    />
+                                </div>
 
-                            <div>
-                                <label htmlFor="phone" className="block text-sm font-bold text-gray-700 mb-2">
-                                    Phone Number
-                                </label>
-                                <input
-                                    type="tel"
-                                    id="phone"
-                                    name="phone"
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[rgb(234,88,12)] focus:border-transparent outline-none transition"
-                                    placeholder="(617) 555-0123"
-                                />
-                            </div>
+                                <div>
+                                    <label htmlFor="phone" className="block text-sm font-bold text-gray-700 mb-2">
+                                        Phone Number
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        name="phone"
+                                        value={formData.phone}
+                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[rgb(234,88,12)] focus:border-transparent outline-none transition"
+                                        placeholder="(617) 555-0123"
+                                    />
+                                </div>
 
-                            <div>
-                                <label htmlFor="company" className="block text-sm font-bold text-gray-700 mb-2">
-                                    Company Name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="company"
-                                    name="company"
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[rgb(234,88,12)] focus:border-transparent outline-none transition"
-                                    placeholder="Your Company"
-                                />
-                            </div>
+                                <div>
+                                    <label htmlFor="company" className="block text-sm font-bold text-gray-700 mb-2">
+                                        Company Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="company"
+                                        name="company"
+                                        value={formData.company}
+                                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[rgb(234,88,12)] focus:border-transparent outline-none transition"
+                                        placeholder="Your Company"
+                                    />
+                                </div>
 
-                            <div>
-                                <label htmlFor="message" className="block text-sm font-bold text-gray-700 mb-2">
-                                    Message *
-                                </label>
-                                <textarea
-                                    id="message"
-                                    name="message"
-                                    required
-                                    rows={6}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[rgb(234,88,12)] focus:border-transparent outline-none transition resize-none"
-                                    placeholder="Tell us about your project..."
-                                ></textarea>
-                            </div>
+                                <div>
+                                    <label htmlFor="message" className="block text-sm font-bold text-gray-700 mb-2">
+                                        Message *
+                                    </label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        required
+                                        rows={6}
+                                        value={formData.message}
+                                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[rgb(234,88,12)] focus:border-transparent outline-none transition resize-none"
+                                        placeholder="Tell us about your project..."
+                                    ></textarea>
+                                </div>
 
-                            <button
-                                type="submit"
-                                className="w-full bg-gradient-to-r from-[rgb(249,115,22)] to-[rgb(234,88,12)] text-white font-bold py-4 px-8 rounded-lg hover:shadow-lg transition-all duration-300 uppercase tracking-wide"
-                            >
-                                Send Message
-                            </button>
-                        </form>
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="w-full bg-gradient-to-r from-[rgb(249,115,22)] to-[rgb(234,88,12)] text-white font-bold py-4 px-8 rounded-lg hover:shadow-lg transition-all duration-300 uppercase tracking-wide disabled:opacity-50"
+                                >
+                                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                                </button>
+                            </form>
+                        )}
                     </div>
 
                     {/* Contact Information */}

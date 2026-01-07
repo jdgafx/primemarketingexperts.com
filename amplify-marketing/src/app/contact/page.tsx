@@ -5,12 +5,35 @@ import Link from "next/link"
 import { ArrowRight, Mail, Phone, MapPin, Send, MessageSquare, ShieldCheck, Zap } from "lucide-react"
 
 export default function ContactPage() {
-    const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
+    const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        solution: 'AI Chatbot Assistant',
+        message: '',
+    });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setFormStatus('sending');
-        setTimeout(() => setFormStatus('sent'), 1500);
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                setFormStatus('sent');
+                setFormData({ name: '', email: '', solution: 'AI Chatbot Assistant', message: '' });
+            } else {
+                throw new Error('Failed to submit');
+            }
+        } catch (error) {
+            setFormStatus('error');
+            setTimeout(() => setFormStatus('idle'), 3000);
+        }
     }
 
     return (
@@ -104,6 +127,8 @@ export default function ContactPage() {
                                                 <input
                                                     required
                                                     type="text"
+                                                    value={formData.name}
+                                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                                     className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-light text-lg"
                                                     placeholder="John Doe"
                                                 />
@@ -113,6 +138,8 @@ export default function ContactPage() {
                                                 <input
                                                     required
                                                     type="email"
+                                                    value={formData.email}
+                                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                     className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-light text-lg"
                                                     placeholder="john@company.com"
                                                 />
@@ -120,11 +147,15 @@ export default function ContactPage() {
                                         </div>
                                         <div className="space-y-3">
                                             <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] ml-2">Target Solution</label>
-                                            <select className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-light text-lg appearance-none">
-                                                <option>AI Chatbot Assistant</option>
-                                                <option>Predictive Analytics</option>
-                                                <option>Voice Intelligence</option>
-                                                <option>Custom AI Strategy</option>
+                                            <select
+                                                value={formData.solution}
+                                                onChange={(e) => setFormData({ ...formData, solution: e.target.value })}
+                                                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-light text-lg appearance-none"
+                                            >
+                                                <option value="AI Chatbot Assistant">AI Chatbot Assistant</option>
+                                                <option value="Predictive Analytics">Predictive Analytics</option>
+                                                <option value="Voice Intelligence">Voice Intelligence</option>
+                                                <option value="Custom AI Strategy">Custom AI Strategy</option>
                                             </select>
                                         </div>
                                         <div className="space-y-3">
@@ -132,6 +163,8 @@ export default function ContactPage() {
                                             <textarea
                                                 required
                                                 rows={4}
+                                                value={formData.message}
+                                                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                                 className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-light text-lg resize-none"
                                                 placeholder="Tell us about your business goals..."
                                             />

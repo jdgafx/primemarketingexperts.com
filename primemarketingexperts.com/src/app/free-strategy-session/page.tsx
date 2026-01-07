@@ -14,7 +14,10 @@ export default function FreeStrategySessionPage() {
         message: '',
     });
 
-    const services = [
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+
+    const servicesList = [
         'SEO Services',
         'Social Media Marketing',
         'Content Marketing',
@@ -25,11 +28,36 @@ export default function FreeStrategySessionPage() {
         'Marketing Automation',
     ];
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission
-        console.log(formData);
-        alert('Thank you! We will contact you shortly to schedule your free strategy session.');
+        setIsSubmitting(true);
+        
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...formData, formType: 'Free Strategy Session' }),
+            });
+
+            if (response.ok) {
+                setIsSuccess(true);
+                setFormData({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    company: '',
+                    website: '',
+                    services: [],
+                    message: '',
+                });
+            } else {
+                throw new Error('Failed to submit');
+            }
+        } catch (error) {
+            alert('Something went wrong. Please try again or call us directly.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const benefits = [
@@ -87,105 +115,120 @@ export default function FreeStrategySessionPage() {
                             {/* Form */}
                             <div className="lg:col-span-3">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-8">Schedule Your Session</h2>
-                                <form onSubmit={handleSubmit} className="space-y-6">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {isSuccess ? (
+                                    <div className="bg-green-50 border border-green-200 rounded-2xl p-8 text-center">
+                                        <div className="text-4xl mb-4">✅</div>
+                                        <h3 className="text-2xl font-bold text-green-900 mb-2">Success!</h3>
+                                        <p className="text-green-700">Thank you for requesting a session. We've received your information and our strategy team will reach out to you within 24 hours.</p>
+                                        <button 
+                                            onClick={() => setIsSuccess(false)}
+                                            className="mt-6 text-green-600 font-bold hover:underline"
+                                        >
+                                            Send another request
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <form onSubmit={handleSubmit} className="space-y-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                                                    placeholder="John Smith"
+                                                    value={formData.name}
+                                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                                                <input
+                                                    type="email"
+                                                    required
+                                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                                                    placeholder="john@company.com"
+                                                    value={formData.email}
+                                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                                                <input
+                                                    type="tel"
+                                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                                                    placeholder="(617) 555-0123"
+                                                    value={formData.phone}
+                                                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                                                <input
+                                                    type="text"
+                                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                                                    placeholder="Your Company"
+                                                    value={formData.company}
+                                                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                                                />
+                                            </div>
+                                        </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Website URL</label>
                                             <input
-                                                type="text"
-                                                required
+                                                type="url"
                                                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                                                placeholder="John Smith"
-                                                value={formData.name}
-                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                                placeholder="https://yourwebsite.com"
+                                                value={formData.website}
+                                                onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-                                            <input
-                                                type="email"
-                                                required
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                                                placeholder="john@company.com"
-                                                value={formData.email}
-                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            />
+                                            <label className="block text-sm font-medium text-gray-700 mb-3">Services Interested In</label>
+                                            <div className="grid grid-cols-2 gap-3">
+                                                {servicesList.map((service) => (
+                                                    <label key={service} className="flex items-center space-x-3 cursor-pointer">
+                                                        <input
+                                                            type="checkbox"
+                                                            className="w-5 h-5 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
+                                                            checked={formData.services.includes(service)}
+                                                            onChange={(e) => {
+                                                                if (e.target.checked) {
+                                                                    setFormData({ ...formData, services: [...formData.services, service] });
+                                                                } else {
+                                                                    setFormData({ ...formData, services: formData.services.filter(s => s !== service) });
+                                                                }
+                                                            }}
+                                                        />
+                                                        <span className="text-gray-700">{service}</span>
+                                                    </label>
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                                            <input
-                                                type="tel"
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                                                placeholder="(617) 555-0123"
-                                                value={formData.phone}
-                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                            />
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Tell Us About Your Goals</label>
+                                            <textarea
+                                                rows={4}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all resize-none"
+                                                placeholder="What are your main marketing challenges and goals?"
+                                                value={formData.message}
+                                                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                            ></textarea>
                                         </div>
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
-                                            <input
-                                                type="text"
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                                                placeholder="Your Company"
-                                                value={formData.company}
-                                                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Website URL</label>
-                                        <input
-                                            type="url"
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                                            placeholder="https://yourwebsite.com"
-                                            value={formData.website}
-                                            onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-3">Services Interested In</label>
-                                        <div className="grid grid-cols-2 gap-3">
-                                            {services.map((service) => (
-                                                <label key={service} className="flex items-center space-x-3 cursor-pointer">
-                                                    <input
-                                                        type="checkbox"
-                                                        className="w-5 h-5 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
-                                                        checked={formData.services.includes(service)}
-                                                        onChange={(e) => {
-                                                            if (e.target.checked) {
-                                                                setFormData({ ...formData, services: [...formData.services, service] });
-                                                            } else {
-                                                                setFormData({ ...formData, services: formData.services.filter(s => s !== service) });
-                                                            }
-                                                        }}
-                                                    />
-                                                    <span className="text-gray-700">{service}</span>
-                                                </label>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Tell Us About Your Goals</label>
-                                        <textarea
-                                            rows={4}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all resize-none"
-                                            placeholder="What are your main marketing challenges and goals?"
-                                            value={formData.message}
-                                            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                        ></textarea>
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all"
-                                    >
-                                        Request My Free Strategy Session
-                                    </button>
-                                    <p className="text-center text-gray-500 text-sm">
-                                        By submitting, you agree to our Privacy Policy. We'll never share your information.
-                                    </p>
-                                </form>
+                                        <button
+                                            type="submit"
+                                            disabled={isSubmitting}
+                                            className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all disabled:opacity-50 disabled:transform-none"
+                                        >
+                                            {isSubmitting ? 'Sending Request...' : 'Request My Free Strategy Session'}
+                                        </button>
+                                        <p className="text-center text-gray-500 text-sm">
+                                            By submitting, you agree to our Privacy Policy. We'll never share your information.
+                                        </p>
+                                    </form>
+                                )}
                             </div>
 
                             {/* Sidebar */}
